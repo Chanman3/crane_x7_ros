@@ -74,6 +74,11 @@ def main():
     gripper.set_joint_value_target([0.4, 0.4])
     gripper.go()
 
+    #垂直
+    arm.set_named_target("home")
+    arm.go()
+
+
     # 持ち上げる
     target_pose = geometry_msgs.msg.Pose()
     target_pose.position.x = 0.2

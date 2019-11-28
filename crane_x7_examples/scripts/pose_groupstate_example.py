@@ -34,15 +34,22 @@ def main():
     gripper.set_joint_value_target([0.9, 0.9])
     gripper.go()
 
+    
     # SRDFに定義されている"home"の姿勢にする
     print("home")
     arm.set_named_target("home")
     arm.go()
-
+   
     # SRDFに定義されている"vertical"の姿勢にする
     print("vertical")
     arm.set_named_target("vertical")
     arm.go()
+    
+    # SRDFに定義されている"search"の姿勢にする
+    print("searchpostion")
+    arm.set_named_target("searchpostion")
+    arm.go()
+
 
     # ハンドを少し閉じる
     gripper.set_joint_value_target([0.7, 0.7])

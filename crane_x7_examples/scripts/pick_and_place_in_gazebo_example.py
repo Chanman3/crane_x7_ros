@@ -61,7 +61,7 @@ def main():
         gripper.wait_for_result(rospy.Duration(1.0))
 
         # SRDFに定義されている"home"の姿勢にする
-        arm.set_named_target("home")
+        arm.set_named_target("searchpostion")
         arm.go()
         rospy.sleep(1.0)
 
