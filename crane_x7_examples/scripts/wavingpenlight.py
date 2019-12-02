@@ -59,8 +59,6 @@ for i in range(11):
     part=data[i][0]
     joint=int(data[i][1])
     angle = float(data[i][2])/180.0*math.pi
-    print("最初の値は",data[i][0],"でパーツ",data[i][1],"で関節",data[i][2],"で角度を表します")
-
 
     print(part, joint, angle)
     if part == "a":
