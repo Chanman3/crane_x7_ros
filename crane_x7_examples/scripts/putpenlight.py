@@ -34,16 +34,83 @@ def yaw_of(object_orientation):
 rospy.init_node("pose_groupstate_example")
 robot = moveit_commander.RobotCommander() 
 arm = moveit_commander.MoveGroupCommander("arm")   
-arm.set_max_velocity_scaling_factor(0.9)
+arm.set_max_velocity_scaling_factor(0.7)
 gripper = moveit_commander.MoveGroupCommander("gripper")
+
+# 何かを掴んでいた時のためにハンドを開く
+gripper.set_joint_value_target([0.9, 0.9])
+gripper.go()
+
+# SRDFに定義されている"home"の姿勢にする
+arm.set_named_target("home")
+arm.go()
+gripper.set_joint_value_target([0.7, 0.7])
+gripper.go()
+
+# 掴む準備をする
+target_pose = geometry_msgs.msg.Pose()
+target_pose.position.x = 0.2
+target_pose.position.y = 0.0
+target_pose.position.z = 0.3
+q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+target_pose.orientation.x = q[0]
+target_pose.orientation.y = q[1]
+target_pose.orientation.z = q[2]
+target_pose.orientation.w = q[3]
+arm.set_pose_target(target_pose)  # 目標ポーズ設定
+arm.go()  # 実行
+
+# 掴みに行く
+target_pose = geometry_msgs.msg.Pose()
+target_pose.position.x = 0.2
+target_pose.position.y = 0.0
+target_pose.position.z = 0.13
+q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+target_pose.orientation.x = q[0]
+target_pose.orientation.y = q[1]
+target_pose.orientation.z = q[2]
+target_pose.orientation.w = q[3]
+arm.set_pose_target(target_pose)  # 目標ポーズ設定
+arm.go()  # 実行
+
+# ハンドを閉じる
+gripper.set_joint_value_target([0.1, 0.1])
+gripper.go()
+
+#垂直
+arm.set_named_target("home")
+arm.go()
+
+# 持ち上げる
+target_pose = geometry_msgs.msg.Pose()
+target_pose.position.x = 0.2
+target_pose.position.y = 0.0
+target_pose.position.z = 0.1
+q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+target_pose.orientation.x = q[0]
+target_pose.orientation.y = q[1]
+target_pose.orientation.z = q[2]
+target_pose.orientation.w = q[3]
+arm.set_pose_target(target_pose)  # 目標ポーズ設定
+arm.go()							# 実行
+
+# 移動する
+target_pose = geometry_msgs.msg.Pose()
+target_pose.position.x = 0.2
+target_pose.position.y = 0.2
+target_pose.position.z = 0.3
+q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+target_pose.orientation.x = q[0]
+target_pose.orientation.y = q[1]
+target_pose.orientation.z = q[2]
+target_pose.orientation.w = q[3]
+arm.set_pose_target(target_pose)  # 目標ポーズ設定
+arm.go()  # 実行
+
 
 #ハンドを閉じる
 gripper.set_joint_value_target([0.1,0.1])
 gripper.go()
-
-
-#arm.set_named_target("search")
-#arm.go()
 
 
 # SRDFに定義されている"vertical"の姿勢にする
@@ -55,7 +122,7 @@ while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
 
 data = [ ["a",0,90],["a",1,40],["a",5,30] ,["a",1,-40],["a",5,1],["a",1,1],["a",1,40],["a",5,30],["a",1,-40],["a",5,1],["a",1,1]]
         
-for i in range(11):
+for i in range(len(data)):
     part=data[i][0]
     joint=int(data[i][1])
     angle = float(data[i][2])/180.0*math.pi
