@@ -43,6 +43,8 @@ for i in range(6):
         arm_joint_values = arm.get_current_joint_values()
         arm_joint_values[joint] = angle
         arm.set_joint_value_target(arm_joint_values)
+        arm_joint_values[joint] = angle
+        arm.set_joint_value_target(arm_joint_values)
         arm.go()		
     elif part == "g":
         gripper_joint_values = gripper.get_current_joint_values()
