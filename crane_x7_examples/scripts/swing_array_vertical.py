@@ -105,7 +105,7 @@ def main():
             part=data[flame][joint_data][0]
             joint=int(data[flame][joint_data][1])
             angle = float(data[flame][joint_data][2])/180.0*math.pi
-            speed =float(data[flame][joint_data][3])
+            speed = arm.set_max_velocity_scaling_factor(data[flame][joint_data][3])
 
             print(part, joint, angle, speed)
             if part == "a":
@@ -118,7 +118,6 @@ def main():
         print("flame")
         print(arm_joint_values)
         arm.set_joint_value_target(arm_joint_values)
-        arm.set_max_velocity_scaling_factor(speed)
         arm.go()
         # gripper.go()
     print("done")
